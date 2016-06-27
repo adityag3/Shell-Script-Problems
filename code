@@ -1,0 +1,88 @@
+#!/bin/bash
+
+
+#######################################################################
+#
+#              SCRIPT TO REVERSE ALL LINES OF THE FILE
+#
+#######################################################################
+
+
+# To make sure that my script reaches the '/home/gaditya' directory
+cd ~
+
+# To initialise file in which to data will be copied
+>txt
+
+echo "File name: "
+read fname
+echo 
+
+# Displaying original content of the file
+echo "Original Contents of the file: "
+cat $fname
+echo
+
+# Loop to iterate through all the lines of the given file.
+# Takes input from file named 'input.txt'.
+while read line
+do
+
+        # Declaring an array
+        declare -a arr
+        
+        # Initialsing counter
+        count=0
+
+        # To iterate through all the variables
+        for word in $line
+        do
+		# Increment counter
+		count=$((count+1))
+
+		# Storing word in the array 'arr'
+                arr[$count]=$word
+        done
+
+	# To match the count variable with the index of array 'arr'
+	count=$((count-1))
+
+	# Declaring array for storing reversed output
+	declare -a arr1
+
+	# Iterating through each element of the array
+	for word in ${arr[*]}
+	do
+		# Storing element in the reversed manner
+		arr1[$count]=$word
+
+		# Counting down variable 'count'
+		count=$((count-1))
+	done
+	
+	# Storing reversd line in a file
+	echo "${arr1[*]}" >> tzt
+	
+	# Unsetting the array. So that previous values doesn't conflict
+        unset arr
+
+done < $fname
+# While loop ends here
+
+# To save changes in the original file
+# cat tzt >> $fname
+
+# Displaying the reversed output
+echo "Desired Output: "
+cat tzt
+
+# Saving memory by freeing the memory taken by temperory files
+rm tzt
+rm txt
+
+#############################################################################
+#
+#                          THE END
+#
+#############################################################################
+
